@@ -22,10 +22,16 @@ public sealed class OutputCachePolicyBuilder
     /// <summary>
     /// Creates a new <see cref="OutputCachePolicyBuilder"/> instance.
     /// </summary>
-    public OutputCachePolicyBuilder()
+    public OutputCachePolicyBuilder(bool excludeDefaultPolicy)
     {
         _builtPolicy = null;
-        _policies.Add(DefaultPolicy.Instance);
+        if (!excludeDefaultPolicy){
+          _policies.Add(DefaultPolicy.Instance);
+        }
+    }
+
+    public OutputCachePolicyBuilder() : this(false)
+    {
     }
 
     internal OutputCachePolicyBuilder AddPolicy(IOutputCachePolicy policy)

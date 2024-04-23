@@ -47,10 +47,18 @@ public static class OutputCacheConventionBuilderExtensions
     /// Marks an endpoint to be cached using the specified policy builder.
     /// </summary>
     public static TBuilder CacheOutput<TBuilder>(this TBuilder builder, Action<OutputCachePolicyBuilder> policy) where TBuilder : IEndpointConventionBuilder
+        => CacheOutput(builder, policy, false);
+
+    /// <summary>
+    /// Marks an endpoint to be cached using the specified policy builder.
+    /// </summary>
+    /// <param name="policy">An action on <see cref="OutputCachePolicyBuilder"/>.</param>
+    /// <param name="excludeDefaultPolicy">Whether to exclude the default policy or not.</param>
+    public static TBuilder CacheOutput<TBuilder>(this TBuilder builder, Action<OutputCachePolicyBuilder> policy, bool excludeDefaultPolicy) where TBuilder : IEndpointConventionBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        var outputCachePolicyBuilder = new OutputCachePolicyBuilder();
+        var outputCachePolicyBuilder = new OutputCachePolicyBuilder(excludeDefaultPolicy);
 
         policy?.Invoke(outputCachePolicyBuilder);
 
